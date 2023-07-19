@@ -57,6 +57,7 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { EntityOwnerCard } from "@echolayer/plugin-backstage";
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -136,6 +137,9 @@ const overviewContent = (
     </Grid>
     <Grid item md={8} xs={12}>
       <EntityHasSubcomponentsCard variant="gridItem" />
+    </Grid>
+    <Grid item xs={12} md={8}>
+      <EntityOwnerCard />
     </Grid>
   </Grid>
 );

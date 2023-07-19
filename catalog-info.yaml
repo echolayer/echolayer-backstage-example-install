@@ -11,3 +11,12 @@ spec:
   type: website
   owner: john@example.com
   lifecycle: experimental
+
+proxy:
+  '/echolayer/api':
+    target: https://api.echolayer.com/api
+    headers:
+      Authorization: Bearer ${ECHOLAYER_API_KEY}
+
+echolayer:
+  apiKey: ${ECHOLAYER_API_KEY}
