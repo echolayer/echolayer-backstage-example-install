@@ -32,6 +32,8 @@ import { PluginEnvironment } from './types';
 import { ServerPermissionClient } from '@backstage/plugin-permission-node';
 import { DefaultIdentityClient } from '@backstage/plugin-auth-node';
 
+import echolayer from './plugins/echolayer';
+
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
   const reader = UrlReaders.default({ logger: root, config });
@@ -40,6 +42,7 @@ function makeCreateEnv(config: Config) {
   const databaseManager = DatabaseManager.fromConfig(config, { logger: root });
   const tokenManager = ServerTokenManager.noop();
   const taskScheduler = TaskScheduler.fromConfig(config);
+  
 
   const identity = DefaultIdentityClient.create({
     discovery,
@@ -85,6 +88,7 @@ async function main() {
   const techdocsEnv = useHotMemoize(module, () => createEnv('techdocs'));
   const searchEnv = useHotMemoize(module, () => createEnv('search'));
   const appEnv = useHotMemoize(module, () => createEnv('app'));
+  const echolayerEnv = useHotMemoize(module, () => createEnv('echolayer'));
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -106,6 +110,8 @@ async function main() {
     console.log(err);
     process.exit(1);
   });
+
+  await echolayer(echolayerEnv);
 }
 
 module.hot?.accept();
